@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YUAG Collection Search</title>
+        <link rel="stylesheet" href="/static/styles.css"/>
+    </head>
+    <body>
+        <h1>YUAG Collection Search</h1>
+        <form method="get" action="/search">
+            <label>Label: </label>
+            <input type="text" id="l" autoFocus>
+            <br>
+            <label>Classification: </label>
+            <input type="text" id="c" autoFocus>            
+            <br>
+            <label>Agent: </label>
+            <input type="text" id="a" autoFocus>            
+            <br>
+            <label>Department: </label>
+            <input type="text" id="d" autoFocus>
+            <br>            
+            <strong>{{error_msg}}</strong>
+        </form>
+        <br>
+        <br>
+        <p id="resultsParagraph"></p>
+        
+        <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+        </script>
+
+        <script>
+            'use strict';
+
+            function handleResponse(response)
+            {
+                $('#resultsParagraph').html(response);
+            }
+
+            let request = null;
+
+            function getResults()
+            {
+                let label = $('#l').val();
+                let classifier = $('#c').val();
+                let agent = $('#a').val();
+                let department = $('#d').val();
+
+                label = encodeURIComponent(label);
+                classifier = encodeURIComponent(classifier);
+                agent = encodeURIComponent(agent);
+                department = encodeURIComponent(department);
+
+                let url = '/search_non_url?l=' + label + '&' + 'c=' + classifier + '&' + 'a=' + agent + '&' + 'd=' + department;
+
+                if (request != null)
+                    request.abort();
+
+                request = $.ajax(
+                    {
+                        type: 'GET',
+                        url: url,
+                        success: handleResponse
+                    }
+                );
+            }
+
+            function setup()
+            {
+                $('#l').on('input', getResults);
+                $('#c').on('input', getResults);
+                $('#a').on('input', getResults);
+                $('#d').on('input', getResults);                
+            }
+
+            $('document').ready(setup);
+
+        </script>
+
+    </body>
+</html>

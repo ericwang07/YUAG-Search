@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Details for object {{obj_id}} </title>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+    </head>
+    <body>
+        <h1>Details for object {{obj_id}}</h1>
+
+        <h3>Summary</h3>
+        <table>
+            <tr>
+                <th>Accession No.</th>
+                <th>Date</th>
+                <th>Place</th>
+            </tr>
+            <tr>
+                <td>{{acc_no}}</td>
+                <td>{{date}}</td>
+                <td>{{place}}</td>
+            </tr>
+        </table>
+        
+        <h3>Label</h3>
+        {{label}}
+
+        <h3>Produced By</h3>
+        <table>
+            <tr>
+                <th>Part</th>
+                <th>Name</th>
+                <th>Nationalities</th>
+                <th>Timespan</th>
+            </tr>
+        {% for agent in agents: %}
+            <tr>
+                <td>{{agent[0]}}</td>
+                <td>{{agent[1]}}</td>
+                <td>{{agent[2]}}</td>
+                <td>{{agent[3]}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        
+        <h3>Classified As</h3>
+        <ul>
+            {% for classifier in classifiers: %}
+                <li>{{classifier}}</li>            
+            {% endfor %}
+        </ul>
+
+        <h3>Information</h3>
+        <ul>
+            {% for (type, content) in references: %}
+                <li><strong>{{ type }}:</strong> {{ content }}</li>        
+            {% endfor %}
+        </ul>
+        <br>        
+        <br>
+    </body>
+</html>
